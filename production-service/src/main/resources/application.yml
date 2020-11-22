@@ -1,0 +1,12 @@
+server:
+  port: 9091
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oopvrcloud
+    username: root
+    password: root
+
+mybatis:
+  type-aliases-package: com.oopvr.production.pojo
