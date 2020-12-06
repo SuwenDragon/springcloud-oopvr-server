@@ -2,7 +2,6 @@ package com.oopvr.production;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jmx.export.annotation.ManagedOperationParameter;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
