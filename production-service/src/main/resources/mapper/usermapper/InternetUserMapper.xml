@@ -28,7 +28,7 @@
           user_iphone,
           user_make
         from
-          internetuser_tb
+          netuser_tb
         <where>
             pk_user_id = #{userId};
         </where>

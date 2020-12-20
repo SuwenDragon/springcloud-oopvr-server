@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Table( name = "internetuser_tb")
+@Table( name = "netuser_tb")
 @JsonInclude(value= JsonInclude.Include.NON_NULL)
 public class InternetUser {
 
@@ -28,6 +28,7 @@ public class InternetUser {
 
     private  String userPassword;
 
+    @Column(name = "user_imageurl")
     private String userImageUrl;
 
     private String userIphone;
@@ -49,4 +50,5 @@ public class InternetUser {
 
     private int userState;
 
+    private int iseffect;
 }
