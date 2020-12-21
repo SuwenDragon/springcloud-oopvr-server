@@ -19,11 +19,11 @@ public interface GearDemand {
 
 
     /**
-     * 根據長度生成一串數字
-     * @param length
+     * 根據長度生成一串數字(账号)
+     * @param
      * @return
      */
-     int makeNumbers(int length);
+     int makeNumbers();
 
 
     /**
