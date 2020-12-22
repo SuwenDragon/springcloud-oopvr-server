@@ -19,6 +19,7 @@ public class GearDemandImplements implements GearDemand {
         return new ScissorsNumber().makeNumbers();
     }
 
+
     @Override
     public int makeShortCode(int length) {
         return 0;
