@@ -17,6 +17,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="consumption-service" options="-parameters" />
       <module name="production-service" options="-parameters" />
     </option>
   </component>

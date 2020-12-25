@@ -6,7 +6,7 @@ import java.util.*;
 
 public class HandleStringDense extends GearDemandImplements {
     private final String str = "zxcvbnmjhg)&*^%$";
-    private final String chaos = "donotdoitoopvri";
+    private final String chaos = "juyetdfcuaocuxzlsdonotdoitoopvri";
     private char[] chars;
     private char[] chaosAtom;
 
@@ -20,10 +20,15 @@ public class HandleStringDense extends GearDemandImplements {
     }
 
     public String codeDecrypt(String str) {
-        return hexStrString(str);
+        return makeCarding(str);
     }
 
 
+    /**
+     * 字符串转码
+     * @param str
+     * @return
+     */
     private String stringHexStr(String str) {
         StringBuilder sb = new StringBuilder("");
         int bit;
@@ -37,6 +42,11 @@ public class HandleStringDense extends GearDemandImplements {
         return makeMiscibility(sb.toString().trim());
     }
 
+    /**
+     * 字符串解码
+     * @param hexStr
+     * @return
+     */
     private String hexStrString(String hexStr) {
         char[] hexs = hexStr.toCharArray();
         byte[] bytes = new byte[hexStr.length() / 2];
@@ -46,10 +56,15 @@ public class HandleStringDense extends GearDemandImplements {
             n += str.indexOf(hexs[2 * i + 1]);
             bytes[i] = (byte) (n & 0xff);
         }
-        return makeCarding(new String(bytes));
+        return new String(bytes);
     }
 
 
+    /**
+     * 转码后加混稀
+     * @param str
+     * @return
+     */
     private String makeMiscibility(String str) {
         char[] sourceChar = str.toCharArray();
         StringBuffer stringBuffer = new StringBuffer();
@@ -63,6 +78,11 @@ public class HandleStringDense extends GearDemandImplements {
     }
 
 
+    /**
+     * 解混稀再解码
+     * @param str
+     * @return
+     */
     private String makeCarding(String str) {
         char[] chars = str.toCharArray();
         List<Character> listchar = new LinkedList<Character>();
@@ -70,12 +90,15 @@ public class HandleStringDense extends GearDemandImplements {
         for (char s: chars) {
             listchar.add(s);
         }
-        for (int i = 1;i<listchar.size();i++){
-            System.out.println(i+1);
-
-
+        for (int i = 0;i<chars.length;i++){
+            if (i == chaosAtom.length) break;
+            if (i == listchar.size()) break;
+            listchar.remove(i+1);
         }
-        return stringBuffer.toString();
+        for (char charto: listchar){
+            stringBuffer.append(charto);
+        }
+        return hexStrString(stringBuffer.toString());
     }
 }
 
