@@ -31,6 +31,10 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.nacos</groupId>-->
 <!--            <artifactId>nacos-spring-context</artifactId>-->

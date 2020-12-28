@@ -1,24 +1,15 @@
-package com.oopvr.production.pojo;
+package com.oopvr.consumption.pojo;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import tk.mybatis.mapper.annotation.KeySql;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Table( name = "netuser_tb")
 @JsonInclude(value= JsonInclude.Include.NON_NULL)
 public class InternetUser {
 
-    @Id
-    @KeySql(useGeneratedKeys = true)
-    @Column(name = "pk_user_id")
     private Integer userId;
 
     private  String userName;
@@ -27,7 +18,6 @@ public class InternetUser {
 
     private  String userPassword;
 
-    @Column(name = "user_imageurl")
     private String userImageUrl;
 
     private String userIphone;

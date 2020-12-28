@@ -2,16 +2,20 @@ package com.oopvr.consumption;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 
 @Configuration
-@SpringBootApplication
-@EnableDiscoveryClient
+//@SpringBootApplication
+//@EnableDiscoveryClient
+@SpringCloudApplication
+@EnableFeignClients   //开启Feign
 public class ConsumptionApplication {
     public static void main(String[] args) {
         SpringApplication.run(ConsumptionApplication.class, args);
