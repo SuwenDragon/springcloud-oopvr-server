@@ -6,9 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.websocket.server.PathParam;
 
 
 @RestController
@@ -20,8 +22,9 @@ public class NetUserController {
     private NetUserClient netUserClient;
 
 
-    @GetMapping("/userid/{id}")
-    public InternetUser AqueryUser(@PathVariable int id) {
+    @PostMapping("/userid/")
+//    @GetMapping()
+    public InternetUser AqueryUser(@PathParam("id") int id) {
      return netUserClient.queryUserId(id);
     }
 
