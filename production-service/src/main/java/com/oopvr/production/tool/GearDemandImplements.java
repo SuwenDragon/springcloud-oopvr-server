@@ -15,18 +15,18 @@ public class GearDemandImplements implements GearDemand {
     }
 
     @Override
-    public int makeNumbers() {
-        return new ScissorsNumber().makeNumbers();
+    public String makeNumbers(int length) {
+        return new ScissorsNumber().makeNumbers(length);
     }
 
 
     @Override
-    public int makeShortCode(int length) {
-        return 0;
+    public String makeShortCode(int length) {
+        return new ScissorsNumber().makeShortCode(length);
     }
 
     @Override
     public String makeToken(int length) {
-        return null;
+        return new ScissorsNumber().makeToken(length);
     }
 }

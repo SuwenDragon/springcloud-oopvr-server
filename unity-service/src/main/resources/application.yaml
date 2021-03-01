@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: oopvr-unity
+server:
+  port: 9999

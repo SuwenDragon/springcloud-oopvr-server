@@ -2,21 +2,51 @@ package com.oopvr.production.tool.wrench;
 
 import com.oopvr.production.tool.GearDemandImplements;
 
+import java.util.Random;
+
 public class ScissorsNumber extends GearDemandImplements {
-    private static final int MAX = 3111111;
-    private static final int MiN = 1;
+    // 验证码字符集
+    private static final char[] CHARS = {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-
-
-    public int makeNumbers() {
-        return cutNumbers();
+    @Override
+    public String makeNumbers(int length) {
+        StringBuffer stringBuffer = new StringBuffer();
+        Random random = new Random();
+        long millis = getTime();
+        int codes = (int) (millis >> 8);
+        for (int i = 0; i < length; i++) {
+            stringBuffer.append(random.nextInt(codes));
+        }
+        return stringBuffer.toString().substring(0, length);
     }
 
 
-    private int cutNumbers() {
+
+    @Override
+    public String makeShortCode(int length) {
+        StringBuffer stringBuffer = new StringBuffer();
+        Random random = new Random();
         long millis = getTime();
-        int star = (int) (millis % (MAX - MiN) + MiN);
-        return star;
+        int codes = (int) (millis >> 16);
+        for (int i = 0; i < length; i++) {
+            stringBuffer.append(random.nextInt(codes));
+        }
+
+        return stringBuffer.toString().substring(0, length);
+    }
+
+    @Override
+    public String makeToken(int length) {
+        StringBuffer stringBuffer = new StringBuffer();
+        Random random = new Random();
+        int number = (int) (getTime() >> 32);
+        for (int j = 0; j<length;j++){
+            stringBuffer.append(CHARS[random.nextInt(CHARS.length)]);
+            stringBuffer.append(random.nextInt(number));
+        }
+        return stringBuffer.toString().substring(0,length);
     }
 
 

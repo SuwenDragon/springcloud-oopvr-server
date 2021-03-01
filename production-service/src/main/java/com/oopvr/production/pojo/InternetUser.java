@@ -21,17 +21,36 @@ public class InternetUser {
     @Column(name = "pk_user_id")
     private Integer userId;
 
+    /**
+     * 用户名称
+     */
     private  String userName;
 
+    /**
+     * 用户账号
+     */
     private  String userAccount;
 
+
+    /**
+     * 用户密码
+     */
     private  String userPassword;
 
+    /**
+     * 用户头像
+     */
     @Column(name = "user_imageurl")
     private String userImageUrl;
 
+    /**
+     * 用户手机号码
+     */
     private String userIphone;
 
+    /**
+     * 用户邮箱
+     */
     private String userMailbox;
 
     private  String userIntroduce;
@@ -49,5 +68,8 @@ public class InternetUser {
 
     private int userState;
 
+    @Column(name = "is_effect")
     private int iseffect;
+
+    private String confirmPassword;
 }

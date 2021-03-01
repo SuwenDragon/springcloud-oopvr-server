@@ -23,15 +23,15 @@ public interface GearDemand {
      * @param
      * @return
      */
-     int makeNumbers();
+     String makeNumbers(int length);
 
 
     /**
-     * 根據長度生成一串较短的验证码，
+     * 根據長度生成一串较短的数字验证码，
      * @param length
      * @return
      */
-     int makeShortCode(int length);
+     String makeShortCode(int length);
 
 
     /**

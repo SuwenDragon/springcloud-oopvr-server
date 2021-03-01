@@ -12,6 +12,7 @@
         <module>production-service</module>
         <module>consumption-service</module>
         <module>service-gateway</module>
+        <module>unity-service</module>
     </modules>
 
     <parent>

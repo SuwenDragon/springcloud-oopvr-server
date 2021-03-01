@@ -8,8 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="production-service" />
-        <module name="consumption-service" />
+        <module name="unity-service" />
         <module name="service-gateway" />
+        <module name="consumption-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -18,6 +19,7 @@
       <module name="consumption-service" options="-parameters" />
       <module name="production-service" options="-parameters" />
       <module name="service-gateway" options="-parameters" />
+      <module name="unity-service" options="-parameters" />
     </option>
   </component>
 </project>
