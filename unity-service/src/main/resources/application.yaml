@@ -1,5 +1,7 @@
 spring:
   application:
     name: oopvr-unity
+#  thymeleaf:
+#    prefix: classpath:/templates
 server:
   port: 9999

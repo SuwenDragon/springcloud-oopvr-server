@@ -12,15 +12,21 @@ import javax.websocket.server.PathParam;
 
 @Controller
 @RequestMapping("/oopvrUnity")
-@ResponseBody
 @Slf4j
 public class MakingTablesController {
 
     @Autowired
     private TabulationToolNeuron tabulationToolNeuron;
 
-    @GetMapping("/position")
+    @RequestMapping("/index")
+    public String toregister(){
 
+        return "index";
+    }
+
+
+    @PostMapping("/position")
+    @ResponseBody
     public String MakingTables(@PathParam("a") String a,
                                @PathParam("b") String b) throws Exception {
         System.out.println("----");

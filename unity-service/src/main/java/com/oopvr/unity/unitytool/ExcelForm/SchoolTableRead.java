@@ -69,6 +69,10 @@ public class SchoolTableRead extends ExcelFormUnityImplements {
 
         }
 
+
+        /**
+         * 获取年级，班级，数量，金额
+         */
         Map<String, HashMap<String, NumberData>> map = new HashMap<>();
         if (listGrade != null) {
             for (int i = 0; i < str.length; i++) {   //遍历所有年级
