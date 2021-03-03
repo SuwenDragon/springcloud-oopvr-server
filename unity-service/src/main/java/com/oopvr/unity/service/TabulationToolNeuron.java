@@ -1,9 +1,6 @@
 package com.oopvr.unity.service;
 
-import com.oopvr.unity.pojo.CompleteData;
-import com.oopvr.unity.pojo.SourceExcelData;
-import com.oopvr.unity.pojo.WarehouseData;
-import com.oopvr.unity.pojo.WarehouseMaxData;
+import com.oopvr.unity.pojo.*;
 import com.oopvr.unity.unitytool.ExcelForm.SchoolTableRead;
 import com.oopvr.unity.unitytool.ExcelForm.SchoolTableWrite;
 import com.oopvr.unity.unitytool.ToolListImplements;
@@ -21,7 +18,7 @@ public class TabulationToolNeuron {
         int frequency=0;
         for (File f1: files){
             SchoolTableRead schoolTableRead = new SchoolTableRead();  //读表
-            SchoolTableWrite schoolTableWrite = new SchoolTableWrite();
+            SchoolTableWrite schoolTableWrite = new SchoolTableWrite();  //写表
             Thread.sleep(2000);
             if (f1.getName().contains("优惠")){
                 SourceExcelData sourceExcelData = new SourceExcelData(); // 初始化实体类
@@ -39,19 +36,30 @@ public class TabulationToolNeuron {
                 sourceExcelData.setName(schoolName);
                 sourceExcelData.setDiscount(discount);  //记录优惠
                 sourceExcelData.setMap(schoolTableRead.readingSheet(f1.getPath())); //记录数据
-                List<CompleteData> listf1 = schoolTableRead.getList();
+                List<CompleteData> listf1 = schoolTableRead.getList();//获得记录所有数据
                 sourceExcelData.setCompleteData(listf1);  //克隆工作表
 
-                for (File f2: files){  //仓库表
-                    if(f2.getName().contains(schoolName+"订单明细")){
+               for (File f2: files){//读单本表数据
+                      if (f2.getName().contains(schoolName+"（单本）-")){
+                          SourceExcelSingleData sourceExcelSingleData = new SourceExcelSingleData();
+                          sourceExcelSingleData.setMap(schoolTableRead.readingSheet(f2.getPath())); //记录单本数据
+                          sourceExcelSingleData.setCompleteData(schoolTableRead.getList());  //记录所有数据
+                          sourceExcelData.setSourceExcelSingleData(sourceExcelSingleData);
+                      }
+                   toolListImplements.copyFileUsingFileChannels(new File(f2.getPath()),new File(toPath+date+
+                           "\\"+schoolName+"\\"+tofrequency+"\\"+f2.getName())); //复制源文件到新文件夹
+               }
+
+                for (File f3: files){  //仓库表
+                    if(f3.getName().contains(schoolName+"订单明细")){
                         WarehouseMaxData warehouseMaxData = new WarehouseMaxData();
-                        int length = f2.getName().length();
-                        int f2Index = f2.getName().indexOf('订');
-                        warehouseMaxData.setCode(f2.getName().substring(0,7));  //获取编号
-                        warehouseMaxData.setName(f2.getName().substring(7,f2Index)); //获取学校名称
+                        int length = f3.getName().length();
+                        int f3Index = f3.getName().indexOf('订');
+                        warehouseMaxData.setCode(f3.getName().substring(0,7));  //获取编号
+                        warehouseMaxData.setName(f3.getName().substring(7,f3Index)); //获取学校名称
                         warehouseMaxData.setDate(date);  //获取日期
-                        warehouseMaxData.setManagerName(f2.getName().substring(f2Index+4,length-4));  //获取经理名字
-                        warehouseMaxData.setWarehouseDataList(schoolTableRead.readingMatchSheet(f2.getPath())); //获取统计
+                        warehouseMaxData.setManagerName(f3.getName().substring(f3Index+4,length-4));  //获取经理名字
+                        warehouseMaxData.setWarehouseDataList(schoolTableRead.readingMatchSheet(f3.getPath())); //获取统计
                         warehouseMaxData.setList(listf1); //获取明细
 //                        System.out.println(warehouseMaxData.toString()+"仓库配书表");
 
@@ -59,8 +67,8 @@ public class TabulationToolNeuron {
                                 toPath+date+"\\"+schoolName+"\\"+tofrequency+"\\"+date+
                                         schoolName +"仓库配书表.xlsx");
 
-                        toolListImplements.copyFileUsingFileChannels(new File(f2.getPath()),new File(toPath+date+
-                                "\\"+schoolName+"\\"+tofrequency+"\\"+f2.getName())); //复制源文件到新文件夹
+                        toolListImplements.copyFileUsingFileChannels(new File(f3.getPath()),new File(toPath+date+
+                                "\\"+schoolName+"\\"+tofrequency+"\\"+f3.getName())); //复制源文件到新文件夹
 
                     }
 

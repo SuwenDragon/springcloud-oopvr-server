@@ -17,16 +17,16 @@ public class SchoolTableRead extends ExcelFormUnityImplements {
             "初一","初二","初三",
             "高一","高二","高三",
             "大一","大二","大三","大四", "小小班", "小班", "中班", "大班", "学前班", "宝宝班", "国际班"};
-     private int index;
+//     private int index;
      public List<CompleteData> list;
-
+//     public List<CompleteData> listSingle;
 
     @Override
     public Map<String, HashMap<String,NumberData>> readingSheet(String path) throws Exception {
         InputStream ips = new FileInputStream(path);  //磁盘io流
         HSSFWorkbook wb = new HSSFWorkbook(ips);    //得到Excel工作簿对象
         HSSFSheet sheet = wb.getSheetAt(0);  //得到Excel工作表对象
-        this.index = sheet.getLastRowNum() + 1;    //获得Excel工作表对象有效行数
+        int index = sheet.getLastRowNum() + 1;    //获得Excel工作表对象有效行数
 
             List listGrade = new ArrayList();  //获取所有年级
         this.list = new ArrayList();  //获取所有数据
@@ -61,10 +61,18 @@ public class SchoolTableRead extends ExcelFormUnityImplements {
             completeDatas.setPaymentMoney(row.getCell((short) 6).toString());
             completeDatas.setNumber(row.getCell((short) 7).toString());
             completeDatas.setTelephone(row.getCell((short) 8).toString());
-            completeDatas.setAddress(row.getCell((short) 9).toString());
+            if (row.getCell((short) 9) == null){  //特殊处理
+                completeDatas.setAddress("");
+            }else {
+                completeDatas.setAddress(row.getCell((short) 9).toString());
+            }
             completeDatas.setDistributionType(row.getCell((short) 10).toString());
             completeDatas.setState(row.getCell((short) 11).toString());
-            completeDatas.setMessage(row.getCell((short) 12).toString());
+            if (row.getCell((short) 12) == null){  //特殊处理
+                completeDatas.setMessage("");
+            }else {
+                completeDatas.setMessage(row.getCell((short) 12).toString());
+            }
             list.add(completeDatas);
 
         }
@@ -123,13 +131,13 @@ public class SchoolTableRead extends ExcelFormUnityImplements {
 //    }
 
     @Override
-    public List<WarehouseData> readingMatchSheet(String path) throws Exception{
+    public List<WarehouseData> readingMatchSheet(String path) throws Exception{ //读仓库表
          List<WarehouseData> warehouseDataList = new ArrayList<>();
          WarehouseData warehouseData = new WarehouseData();
         InputStream ips = new FileInputStream(path);  //磁盘io流
         HSSFWorkbook wb = new HSSFWorkbook(ips);    //得到Excel工作簿对象
         HSSFSheet sheet = wb.getSheetAt(0);  //得到Excel工作表对象
-        this.index = sheet.getLastRowNum() + 1;    //获得Excel工作表对象有效行数
+         int index = sheet.getLastRowNum() + 1;    //获得Excel工作表对象有效行数
         HSSFRow row = sheet.getRow(0);
         warehouseData.setCommodity(row.getCell((short) 0).toString());
         warehouseData.setTotal(row.getCell((short) 1).toString());
@@ -155,4 +163,8 @@ public class SchoolTableRead extends ExcelFormUnityImplements {
     public List getList(){
         return this.list;
     }
+
+//    public List getListSingle(){
+//        return this.listSingle;
+//    }
 }

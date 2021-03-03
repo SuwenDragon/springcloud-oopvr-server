@@ -11,6 +11,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -31,17 +32,24 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
             HSSFSheet sheete = wb.createSheet("透视图"); // create
             HSSFSheet sheetq = wb.createSheet("学校总订单"); // create
             HSSFSheet sheetw = wb.createSheet("华闻（套）明细"); // create
+            HSSFSheet sheetp = wb.createSheet("华闻（单）明细"); // create
             HSSFSheet sheet = wb.createSheet("各班级数量老师签收表"); // create
+            HSSFSheet sheeto = wb.createSheet("各班级(单本)数量老师签收表"); // create
             HSSFSheet sheet1 = wb.createSheet("各班级数量负责人签收表"); // create
+            HSSFSheet sheets = wb.createSheet("各班级(单本)数量负责人签收表"); // create
             HSSFSheet sheet2 = wb.createSheet("各班级奖状汇总配送表"); // create
 
 
             setPageStyle(sourceExcelData, sheete);
             setPageStyle(sourceExcelData, sheetq);
             setPageStyle(sourceExcelData, sheetw);
+            setPageStyle(sourceExcelData, sheetp);
             setPageStyle(sourceExcelData, sheet);
+            setPageStyle(sourceExcelData, sheeto);
             setPageStyle(sourceExcelData, sheet1);
+            setPageStyle(sourceExcelData, sheets);
             setPageStyle(sourceExcelData, sheet2);
+
 
 
 /**
@@ -187,13 +195,11 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
         sheet.setMargin(HSSFSheet.LeftMargin, (double) 0.1);// 页边距（左）
         sheet.setMargin(HSSFSheet.RightMargin, (double) 0.1);// 页边距（右）
         sheet.setMargin(HSSFSheet.TopMargin, (double) 0.1);// 页边距（上）
-        CellRangeAddress cellAddrss = new CellRangeAddress(0, 0, 0, 5);
+        CellRangeAddress cellAddrss = new CellRangeAddress(0, 0, 0, 5); //合并单元格
 
 
         //配置列宽
-
-
-        if (sheet.getSheetName().contains("老师")) {
+        if (sheet.getSheetName().contains("各班级数量老师签收表")) {
             sheet.addMergedRegion(cellAddrss);
             Footer footer = sheet.getFooter();
             footer.setCenter("第" + HeaderFooter.page() + "页，共 " + HeaderFooter.numPages() + "页");
@@ -305,7 +311,242 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
             rowN.createCell((short) 5).setCellStyle(style);
 
         }
-        if (sheet.getSheetName().contains("负责人")) {
+        if (sheet.getSheetName().contains("各班级(单本)数量老师签收表")) {
+            sheet.addMergedRegion(cellAddrss);
+            Footer footer = sheet.getFooter();
+            footer.setCenter("第" + HeaderFooter.page() + "页，共 " + HeaderFooter.numPages() + "页");
+            sheet.setColumnWidth((short) 0,
+                    (short) ((33 * 8) / ((double) 1 / 10)));
+            sheet.setColumnWidth((short) 1,
+                    (short) ((33 * 8) / ((double) 1 / 10)));
+            sheet.setColumnWidth((short) 2,
+                    (short) ((33 * 8) / ((double) 1 / 10)));
+            sheet.setColumnWidth((short) 3,
+                    (short) ((33 * 8) / ((double) 1 / 10)));
+            sheet.setColumnWidth((short) 4,
+                    (short) ((50 * 8) / ((double) 1 / 20)));
+            sheet.setColumnWidth((short) 5,
+                    (short) ((50 * 8) / ((double) 1 / 20)));
+            HSSFCellStyle style = getUnitStyle();
+            HSSFRow row = sheet.createRow(0); // 创建1行
+            row.setHeight((short) 0x300); // 设直行的高度.
+            HSSFCell cell = row.createCell((short) 0); // 创建0行0列.
+            cell.setCellStyle(style); // 设置单元格的风格
+
+            String[] strpop = {"年级", "班级", "汇总", " ", "签名", "电话号码"};
+            HSSFRow row1 = sheet.createRow(1); // 创建2行
+            row1.setHeight((short) 0x300); // 设直行的高度.
+            for (int i = 0; i < strpop.length; i++) {
+                HSSFCell cell1 = row1.createCell((short) i); // 创建0行0列.
+                cell1.setCellValue(strpop[i]);
+                cell1.setCellStyle(style); // 设置单元格的风格
+                row.createCell((short) i).setCellStyle(style);// 设置第一行单元格的风格
+            }
+            cell.setCellValue(sourceExcelData.getDate() + sourceExcelData.getName() + "各班级图书（单本）数量签收表（老师签收）"); // 设置单元的内容.
+            SourceExcelSingleData sourceExcelSingleData = sourceExcelData.getSourceExcelSingleData();
+            if (sourceExcelSingleData == null) return;
+            Map<String, HashMap<String, NumberData>> map = sourceExcelSingleData.getMap();
+            int group = 0;
+            int hsummary = 0;
+            double hdiscountSummary = 0;
+            int index = 0;
+            for (int i = 0; i < str.length; i++) {
+                if (map.containsKey(str[i])) {
+                    index++;
+                    HSSFRow row2 = sheet.createRow(group + 2); // 创建3行
+                    row2.setHeight((short) 0x300); // 设直行的高度.
+                    group++;
+
+
+                    HSSFCell cell1;
+                    for (int js = 1; js < strpop.length; js++) {
+                        cell1 = row2.createCell((short) js);
+                        cell1.setCellStyle(style);
+                    }
+
+                    HSSFCell cellq = row2.createCell((short) 0); // 创建0行0列.
+                    cellq.setCellValue(str[i]);
+                    cellq.setCellStyle(style);
+
+                    HashMap<String, NumberData> stringNumberDataHashMap = map.get(str[i]);
+                    Set set = stringNumberDataHashMap.keySet(); //获得班级
+                    Iterator iter = set.iterator();
+                    int summary = 0;
+                    double discountSummary = 0;
+                    while (iter.hasNext()) {
+                        String key = (String) iter.next();
+                        HSSFRow row3 = sheet.createRow(group + 2); // 创建4行
+                        row3.setHeight((short) 0x300); // 设直行的高度.
+                        for (int uus = 0; uus < strpop.length; uus++) {
+                            row3.createCell((short) uus).setCellStyle(style);
+                        }
+
+                        summary = summary + stringNumberDataHashMap.get(key).getNumber();
+                        discountSummary = discountSummary + stringNumberDataHashMap.get(key).getMoney() * sourceExcelData.getDiscount();
+
+                        HSSFCell cellw = row3.createCell((short) 1);
+                        cellw.setCellValue(key);
+                        cellw.setCellStyle(style);
+                        HSSFCell cellr = row3.createCell((short) 2);
+                        cellr.setCellValue(stringNumberDataHashMap.get(key).getNumber());
+                        cellr.setCellStyle(style);
+                        HSSFCell celly = row3.createCell((short) 3);
+                        double v = new BigDecimal(stringNumberDataHashMap.get(key).getMoney() * sourceExcelData.getDiscount())
+                                .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                        celly.setCellValue(v);
+                        celly.setCellStyle(style);
+                        group++;
+                    }
+                    hsummary = hsummary + summary;
+                    hdiscountSummary = hdiscountSummary + discountSummary;
+
+                    HSSFCell cellu = row2.createCell((short) 2);
+                    cellu.setCellValue(summary);
+                    cellu.setCellStyle(style);
+                    HSSFCell celliu = row2.createCell((short) 3);
+                    double vsum = new BigDecimal(discountSummary)
+                            .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    celliu.setCellValue(vsum);
+                    celliu.setCellStyle(style);
+                }
+            }
+            HSSFRow rowN = sheet.createRow((short) group + 2); // 创建N行{}
+            rowN.setHeight((short) 0x300); // 设直行的高度.
+
+            HSSFCell cell10 = rowN.createCell((short) 0);
+            cell10.setCellValue("总计");
+            cell10.setCellStyle(style);
+            HSSFCell cell11 = rowN.createCell((short) 1);
+            cell11.setCellValue(group - index);
+            cell11.setCellStyle(style);
+            HSSFCell cell12 = rowN.createCell((short) 2);
+            cell12.setCellValue(hsummary);
+            cell12.setCellStyle(style);
+            HSSFCell cell13 = rowN.createCell((short) 3);
+            double vsums = new BigDecimal(hdiscountSummary)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            cell13.setCellValue(vsums);
+            cell13.setCellStyle(style);
+            rowN.createCell((short) 4).setCellStyle(style);
+            rowN.createCell((short) 5).setCellStyle(style);
+
+        }
+        if (sheet.getSheetName().contains("各班级(单本)数量负责人签收表")) {
+            CellRangeAddress cellAddrssf = new CellRangeAddress(0, 0, 0, 3);
+            sheet.addMergedRegion(cellAddrssf);
+            Footer footer = sheet.getFooter();
+            footer.setCenter("第" + HeaderFooter.page() + "页，共 " + HeaderFooter.numPages() + "页");
+            sheet.setColumnWidth((short) 0,
+                    (short) ((38 * 8) / ((double) 1 / 20)));
+            sheet.setColumnWidth((short) 1,
+                    (short) ((38 * 8) / ((double) 1 / 20)));
+            sheet.setColumnWidth((short) 2,
+                    (short) ((45 * 8) / ((double) 1 / 20)));
+            sheet.setColumnWidth((short) 3,
+                    (short) ((45 * 8) / ((double) 1 / 20)));
+
+            HSSFCellStyle style = getUnitStyle();
+            HSSFRow row = sheet.createRow(0); // 创建1行
+            row.setHeight((short) 0x300); // 设直行的高度.
+            HSSFCell cell = row.createCell((short) 0); // 创建0行0列.
+            cell.setCellStyle(style); // 设置单元格的风格
+
+            String[] strpop = {"年级", "班级", "汇总", " "};
+            HSSFRow row1 = sheet.createRow(1); // 创建2行
+            row1.setHeight((short) 0x300); // 设直行的高度.
+            for (int i = 0; i < strpop.length; i++) {
+                HSSFCell cell1 = row1.createCell((short) i); // 创建0行0列.
+                cell1.setCellValue(strpop[i]);
+                cell1.setCellStyle(style); // 设置单元格的风格
+                row.createCell((short) i).setCellStyle(style);// 设置第一行单元格的风格
+            }
+            cell.setCellValue(sourceExcelData.getDate() + sourceExcelData.getName() + "各班级（单本）图书数量表（给负责人）"); // 设置单元的内容.
+            SourceExcelSingleData sourceExcelSingleData = sourceExcelData.getSourceExcelSingleData();
+            if (sourceExcelSingleData == null) return;
+            Map<String, HashMap<String, NumberData>> map = sourceExcelSingleData.getMap();
+            int group = 0;
+            int hsummary = 0;
+            double hdiscountSummary = 0;
+            int index = 0;
+            for (int i = 0; i < str.length; i++) {
+                if (map.containsKey(str[i])) {
+                    index++;
+                    HSSFRow row2 = sheet.createRow(group + 2); // 创建3行
+                    row2.setHeight((short) 0x300); // 设直行的高度.
+                    group++;
+
+
+                    HSSFCell cell1;
+                    for (int js = 1; js < strpop.length; js++) {
+                        cell1 = row2.createCell((short) js);
+                        cell1.setCellStyle(style);
+                    }
+
+                    HSSFCell cellq = row2.createCell((short) 0); // 创建0行0列.
+                    cellq.setCellValue(str[i]);
+                    cellq.setCellStyle(style);
+
+                    HashMap<String, NumberData> stringNumberDataHashMap = map.get(str[i]);
+                    Set set = stringNumberDataHashMap.keySet(); //获得班级
+                    Iterator iter = set.iterator();
+                    int summary = 0;
+                    double discountSummary = 0;
+                    while (iter.hasNext()) {
+                        String key = (String) iter.next();
+                        HSSFRow row3 = sheet.createRow(group + 2); // 创建4行
+                        row3.setHeight((short) 0x300); // 设直行的高度.
+                        for (int uus = 0; uus < strpop.length; uus++) {
+                            row3.createCell((short) uus).setCellStyle(style);
+                        }
+
+                        summary = summary + stringNumberDataHashMap.get(key).getNumber();
+                        discountSummary = discountSummary + stringNumberDataHashMap.get(key).getMoney() * sourceExcelData.getDiscount();
+
+                        HSSFCell cellw = row3.createCell((short) 1);
+                        cellw.setCellValue(key);
+                        cellw.setCellStyle(style);
+                        HSSFCell cellr = row3.createCell((short) 2);
+                        cellr.setCellValue(stringNumberDataHashMap.get(key).getNumber());
+                        cellr.setCellStyle(style);
+                        HSSFCell celly = row3.createCell((short) 3);
+                        double v = new BigDecimal(stringNumberDataHashMap.get(key).getMoney() * sourceExcelData.getDiscount())
+                                .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                        celly.setCellValue(v);
+                        celly.setCellStyle(style);
+                        group++;
+                    }
+                    hsummary = hsummary + summary;
+                    hdiscountSummary = hdiscountSummary + discountSummary;
+
+                    HSSFCell cellu = row2.createCell((short) 2);
+                    cellu.setCellValue(summary);
+                    cellu.setCellStyle(style);
+                    HSSFCell celliu = row2.createCell((short) 3);
+                    double vsum = new BigDecimal(discountSummary)
+                            .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    celliu.setCellValue(vsum);
+                    celliu.setCellStyle(style);
+                }
+            }
+            HSSFRow rowN = sheet.createRow((short) group + 2); // 创建N行{}
+            rowN.setHeight((short) 0x300); // 设直行的高度.
+
+            HSSFCell cell10 = rowN.createCell((short) 0);
+            cell10.setCellValue("总计");
+            cell10.setCellStyle(style);
+            HSSFCell cell11 = rowN.createCell((short) 1);
+            cell11.setCellValue(group - index);
+            cell11.setCellStyle(style);
+            HSSFCell cell12 = rowN.createCell((short) 2);
+            cell12.setCellValue(hsummary);
+            cell12.setCellStyle(style);
+            HSSFCell cell13 = rowN.createCell((short) 3);
+            double vsums = new BigDecimal(hdiscountSummary)
+                    .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            cell13.setCellValue(vsums);
+            cell13.setCellStyle(style);
+        }
+        if (sheet.getSheetName().contains("各班级数量负责人签收表")) {
             CellRangeAddress cellAddrssf = new CellRangeAddress(0, 0, 0, 3);
             sheet.addMergedRegion(cellAddrssf);
             Footer footer = sheet.getFooter();
@@ -615,8 +856,6 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
         }
         if (sheet.getSheetName().contains("总订单")) {
             List<CompleteData> listcompleteData = sourceExcelData.getCompleteData();
-
-//            System.out.println(sourceExcelData.getCompleteData().toString()+"全部订单信息");
             HSSFRow row = sheet.createRow(0);
             CompleteData o = listcompleteData.get(0);
             row.createCell((short) 0).setCellValue(o.getSchoolType());
@@ -632,7 +871,9 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
             row.createCell((short) 10).setCellValue(o.getDistributionType());
             row.createCell((short) 11).setCellValue(o.getState());
             row.createCell((short) 12).setCellValue(o.getMessage());
+            int lengths = 0;
             for (int i = 1; i < listcompleteData.size(); i++) {
+                lengths++;
                 CompleteData completeData1 = listcompleteData.get(i);
                 HSSFRow row1 = sheet.createRow(i);
                 row1.createCell((short) 0).setCellValue(completeData1.getSchoolType());
@@ -649,6 +890,26 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
                 row1.createCell((short) 11).setCellValue(completeData1.getState());
                 row1.createCell((short) 12).setCellValue(completeData1.getMessage());
             }
+            SourceExcelSingleData sourceExcelSingleData = sourceExcelData.getSourceExcelSingleData();  //写入单本数据
+            if (sourceExcelSingleData == null) return;
+            List<CompleteData> listcompleteSingleData = sourceExcelSingleData.getCompleteData();
+           for (int j = 1;j<listcompleteSingleData.size();j++){
+               CompleteData completeData1 = listcompleteSingleData.get(j);
+               HSSFRow row1 = sheet.createRow(j+lengths);
+               row1.createCell((short) 0).setCellValue(completeData1.getSchoolType());
+               row1.createCell((short) 1).setCellValue(completeData1.getGrade());
+               row1.createCell((short) 2).setCellValue(completeData1.getGradeClass());
+               row1.createCell((short) 3).setCellValue(completeData1.getOrderCode());
+               row1.createCell((short) 4).setCellValue(completeData1.getCommodity());
+               row1.createCell((short) 5).setCellValue(completeData1.getStudentName());
+               row1.createCell((short) 6).setCellValue(Double.valueOf(completeData1.getPaymentMoney()));
+               row1.createCell((short) 7).setCellValue(Integer.valueOf(completeData1.getNumber()));
+               row1.createCell((short) 8).setCellValue(completeData1.getTelephone());
+               row1.createCell((short) 9).setCellValue(completeData1.getAddress());
+               row1.createCell((short) 10).setCellValue(completeData1.getDistributionType());
+               row1.createCell((short) 11).setCellValue(completeData1.getState());
+               row1.createCell((short) 12).setCellValue(completeData1.getMessage());
+           }
 
 
         }
@@ -692,10 +953,50 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
 
 
         }
+        if(sheet.getSheetName().contains("华闻（单）明细")){
+            SourceExcelSingleData sourceExcelSingleData = sourceExcelData.getSourceExcelSingleData();
+            if (sourceExcelSingleData == null) return;
+            List<CompleteData> listcompleteData = sourceExcelSingleData.getCompleteData();
+//            System.out.println(sourceExcelData.getCompleteData().toString()+"全部订单信息");
+            HSSFRow row = sheet.createRow(0);
+            CompleteData o = listcompleteData.get(0);
+            row.createCell((short) 0).setCellValue(o.getSchoolType());
+            row.createCell((short) 1).setCellValue(o.getGrade());
+            row.createCell((short) 2).setCellValue(o.getGradeClass());
+            row.createCell((short) 3).setCellValue(o.getOrderCode());
+            row.createCell((short) 4).setCellValue(o.getCommodity());
+            row.createCell((short) 5).setCellValue(o.getStudentName());
+            row.createCell((short) 6).setCellValue(o.getPaymentMoney());
+            row.createCell((short) 7).setCellValue(o.getNumber());
+            row.createCell((short) 8).setCellValue(o.getTelephone());
+            row.createCell((short) 9).setCellValue(o.getAddress());
+            row.createCell((short) 10).setCellValue(o.getDistributionType());
+            row.createCell((short) 11).setCellValue(o.getState());
+            row.createCell((short) 12).setCellValue(o.getMessage());
+            for (int i = 1; i < listcompleteData.size(); i++) {
+                CompleteData completeData1 = listcompleteData.get(i);
+                HSSFRow row1 = sheet.createRow(i);
+                row1.createCell((short) 0).setCellValue(completeData1.getSchoolType());
+                row1.createCell((short) 1).setCellValue(completeData1.getGrade());
+                row1.createCell((short) 2).setCellValue(completeData1.getGradeClass());
+                row1.createCell((short) 3).setCellValue(completeData1.getOrderCode());
+                row1.createCell((short) 4).setCellValue(completeData1.getCommodity());
+                row1.createCell((short) 5).setCellValue(completeData1.getStudentName());
+                row1.createCell((short) 6).setCellValue(Double.valueOf(completeData1.getPaymentMoney()));
+                row1.createCell((short) 7).setCellValue(Integer.valueOf(completeData1.getNumber()));
+                row1.createCell((short) 8).setCellValue(completeData1.getTelephone());
+                row1.createCell((short) 9).setCellValue(completeData1.getAddress());
+                row1.createCell((short) 10).setCellValue(completeData1.getDistributionType());
+                row1.createCell((short) 11).setCellValue(completeData1.getState());
+                row1.createCell((short) 12).setCellValue(completeData1.getMessage());
+            }
+
+        }
 
 
     }
 
+    //生成仓库表
     public void setPageMatchStyle(WarehouseMaxData warehouseMaxData, HSSFSheet sheet) {
         HSSFPrintSetup hps = sheet.getPrintSetup();
         hps.setPaperSize(HSSFPrintSetup.A4_PAPERSIZE); // 设置A4纸
