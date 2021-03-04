@@ -11,6 +11,7 @@ public class SourceExcelData {
     public String frequency;  //(一次性)，（第一次）
     public double discount;    //优惠
     public List<CompleteData>  completeData;
-    public Map<String, HashMap<String,NumberData>> map;
+    public Map<String, HashMap<String,NumberData>> map; //正常数据
+    public Map<String, HashMap<String,NumberData>> mapSum; //结算奖状
     public SourceExcelSingleData sourceExcelSingleData;
 }

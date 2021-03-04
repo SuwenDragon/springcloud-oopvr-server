@@ -12,6 +12,6 @@ public class WarehouseMaxData {
     public String code;   //编号
     public List<WarehouseData> warehouseDataList; //商品统计
     List<CompleteData> list;  //明细
-
+    public WarehouseSingleData warehouseSingleData;
 
 }
