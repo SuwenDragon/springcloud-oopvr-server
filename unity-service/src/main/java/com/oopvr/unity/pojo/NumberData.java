@@ -9,4 +9,12 @@ public class NumberData {
 
 
 
+    public void addNumber(int i){
+        this.number+=i;
+    }
+
+
+    public void addMoney(double d){
+        this.money+=d;
+    }
 }

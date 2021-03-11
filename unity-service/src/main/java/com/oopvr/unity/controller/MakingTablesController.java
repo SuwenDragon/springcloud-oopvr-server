@@ -28,11 +28,13 @@ public class MakingTablesController {
     @PostMapping("/position")
     @ResponseBody
     public String MakingTables(@PathParam("a") String a,
-                               @PathParam("b") String b) throws Exception {
+                               @PathParam("b") String b,
+                               @PathParam("xs") int xs) throws Exception {
+        System.out.println(xs);
         System.out.println("----");
         System.out.println(a+"----------"+b);
-        boolean b1 = tabulationToolNeuron.makeTableExcel(a, b);
-
-        return "<h1>"+b1+"</h1>";
+        String b1 = tabulationToolNeuron.makeTableExcel(a, b,xs);
+        System.out.println("一共"+b1+"个学校");
+        return "<h1>一共"+b1+"个学校</h1>";
     }
 }

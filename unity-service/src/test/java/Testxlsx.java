@@ -52,8 +52,8 @@ public class Testxlsx {
     @Test
     public void TestReadFile()  throws Exception{
         TabulationToolNeuron tabulationToolNeuron = new TabulationToolNeuron();
-            boolean b = tabulationToolNeuron.makeTableExcel("H:\\testdemo\\1.17", "H:\\testresult\\");
-        System.out.println(b);
+             String s = tabulationToolNeuron.makeTableExcel("H:\\testdemo\\1.17", "H:\\testresult\\",0);
+        System.out.println(s);
 
 
     }

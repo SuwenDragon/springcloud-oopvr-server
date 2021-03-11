@@ -14,4 +14,6 @@ public class SourceExcelData {
     public Map<String, HashMap<String,NumberData>> map; //正常数据
     public Map<String, HashMap<String,NumberData>> mapSum; //结算奖状
     public SourceExcelSingleData sourceExcelSingleData;
+
+    public Map<String, HashMap<String,NumberData>> maxMap;
 }

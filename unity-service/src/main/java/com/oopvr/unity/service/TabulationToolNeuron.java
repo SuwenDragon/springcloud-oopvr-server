@@ -3,16 +3,23 @@ package com.oopvr.unity.service;
 import com.oopvr.unity.pojo.*;
 import com.oopvr.unity.unitytool.ExcelForm.SchoolTableRead;
 import com.oopvr.unity.unitytool.ExcelForm.SchoolTableWrite;
+import com.oopvr.unity.unitytool.ExcelFormUnityInterface;
 import com.oopvr.unity.unitytool.ToolListImplements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TabulationToolNeuron {
 
-    public boolean makeTableExcel(String source, String toPath) throws Exception {
+    @Autowired
+    private ExcelFormUnityInterface excelFormUnityInterface;
+
+    public String makeTableExcel(String source, String toPath,int xs) throws Exception {
         ToolListImplements toolListImplements = new ToolListImplements();  //获取路径
         List<File> files = toolListImplements.readFile(source);
         int frequency = 0;
@@ -46,7 +53,10 @@ public class TabulationToolNeuron {
                         sourceExcelSingleData.setMap(schoolTableRead.readingSheet(f2.getPath())); //记录单本数据
                         sourceExcelSingleData.setCompleteData(schoolTableRead.getList());  //记录所有数据
                         sourceExcelData.setSourceExcelSingleData(sourceExcelSingleData);
-
+                        Map<String, HashMap<String, NumberData>> stringHashMapMap =
+                                excelFormUnityInterface.handleData(sourceExcelData.getCompleteData(),
+                                        sourceExcelSingleData.getCompleteData());
+                        sourceExcelData.setMaxMap(stringHashMapMap);//套装和单本统计
 
                         File fileDir = new File(toPath + date +
                                 "\\" + schoolName + "\\" + tofrequency + "\\" + f2.getName());
@@ -116,9 +126,15 @@ public class TabulationToolNeuron {
 
                 }
 
+                if (sourceExcelData.getMaxMap() == null){
+                    sourceExcelData.setMaxMap(
+                            excelFormUnityInterface.handleData(sourceExcelData.getCompleteData()));
+                }
+
+
 
                 schoolTableWrite.writeSheet(sourceExcelData, toPath + date + "\\" + schoolName + "\\" + tofrequency + "\\" + date +
-                        tofrequency + schoolName + "各表.xlsx"); //制表
+                        tofrequency + schoolName + "各表.xlsx",xs); //制表
 
                 toolListImplements.copyFileUsingFileChannels(new File(f1.getPath()), new File(toPath + date +
                         "\\" + schoolName + "\\" + tofrequency + "\\" + f1.getName())); //复制源文件到新文件夹
@@ -133,6 +149,7 @@ public class TabulationToolNeuron {
 
         }
 
-        return true;
+
+        return String.valueOf(frequency);
     }
 }
