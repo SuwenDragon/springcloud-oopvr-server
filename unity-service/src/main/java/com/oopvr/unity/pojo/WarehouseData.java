@@ -3,6 +3,9 @@ package com.oopvr.unity.pojo;
 
 import lombok.Data;
 
+/**
+ * 仓库属性数据
+ */
 @Data
 public class WarehouseData {
     public String commodity;

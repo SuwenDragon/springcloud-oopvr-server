@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.*;
 
+/**
+ * 订单总数据
+ */
 @Data
 public class SourceExcelData {
     public String date;  //日期

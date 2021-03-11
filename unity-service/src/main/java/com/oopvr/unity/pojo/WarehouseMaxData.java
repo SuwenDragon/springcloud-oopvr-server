@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * 仓库总统计数据
+ */
 @Data
 public class WarehouseMaxData {
     public String date;  //日期

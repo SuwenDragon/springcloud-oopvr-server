@@ -30,8 +30,7 @@ public interface ExcelFormUnityInterface {
     List<WarehouseData> readingMatchSheet(String path) throws Exception;
 
     /**
-     * 写数据
-     *
+     * 处理明细表数据
      * @param sourceExcelData
      * @param path
      * @return
@@ -39,8 +38,21 @@ public interface ExcelFormUnityInterface {
      */
     String writeSheet(SourceExcelData sourceExcelData, String path, int xs) throws Exception;
 
+    /**
+     * 生成仓库表数据
+     * @param warehouseMaxData
+     * @param path
+     * @return
+     * @throws Exception
+     */
     String writeMatchSheet(WarehouseMaxData warehouseMaxData, String path) throws Exception;
 
+    /**
+     * 特殊处理
+     * @param list1
+     * @param list2
+     * @return
+     */
     Map<String, HashMap<String, NumberData>> handleData(List<CompleteData> list1, List<CompleteData> list2);
 
     Map<String, HashMap<String, NumberData>> handleData(List<CompleteData> list1);

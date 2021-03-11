@@ -234,7 +234,11 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
         return "ok";
     }
 
-    //生成学校表
+    /**
+     * 生成学校表
+     * @param sourceExcelData
+     * @param sheet
+     */
     public void setPageStyle(SourceExcelData sourceExcelData, HSSFSheet sheet) {
         HSSFPrintSetup hps = sheet.getPrintSetup();
         hps.setPaperSize(HSSFPrintSetup.A4_PAPERSIZE); // 设置A4纸
@@ -1380,7 +1384,11 @@ public class SchoolTableWrite extends ExcelFormUnityImplements {
 
     }
 
-    //生成仓库表
+    /**
+     * 生成仓库表
+     * @param warehouseMaxData
+     * @param sheet
+     */
     public void setPageMatchStyle(WarehouseMaxData warehouseMaxData, HSSFSheet sheet) {
         HSSFPrintSetup hps = sheet.getPrintSetup();
         hps.setPaperSize(HSSFPrintSetup.A4_PAPERSIZE); // 设置A4纸

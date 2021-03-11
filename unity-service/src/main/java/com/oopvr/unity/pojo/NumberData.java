@@ -2,6 +2,9 @@ package com.oopvr.unity.pojo;
 
 import lombok.Data;
 
+/**
+ * 班级属性
+ */
 @Data
 public class NumberData {
     public int number;

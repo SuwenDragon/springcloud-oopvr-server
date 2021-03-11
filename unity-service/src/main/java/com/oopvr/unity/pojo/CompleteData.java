@@ -2,6 +2,9 @@ package com.oopvr.unity.pojo;
 
 import lombok.Data;
 
+/**
+ * 订单数据
+ */
 @Data
 public class CompleteData {
     public String schoolType;   //学校类型

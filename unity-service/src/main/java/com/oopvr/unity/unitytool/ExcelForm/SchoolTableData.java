@@ -17,6 +17,12 @@ public class SchoolTableData extends ExcelFormUnityImplements {
             "大一","大二","大三","大四", "小小班", "小班", "中班", "大班", "学前班", "宝宝班", "国际班"};
 
 
+    /**
+     * 处理数据统计
+     * @param list1
+     * @param list2
+     * @return
+     */
     @Override
     public Map<String, HashMap<String, NumberData>> handleData(List<CompleteData> list1, List<CompleteData> list2) {
         Map<String, HashMap<String, NumberData>> maxmap = new HashMap<>();
@@ -69,6 +75,7 @@ public class SchoolTableData extends ExcelFormUnityImplements {
         }
         return maxmap;
     }
+
     private List<CompleteData> addRs(List<CompleteData> list1,List<CompleteData> list2){
 
            List<CompleteData> listCompleteData = new ArrayList<>();

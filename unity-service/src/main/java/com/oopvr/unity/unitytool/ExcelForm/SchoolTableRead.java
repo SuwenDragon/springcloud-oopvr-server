@@ -21,6 +21,13 @@ public class SchoolTableRead extends ExcelFormUnityImplements {
      public List<CompleteData> list;
 //     public List<CompleteData> listSingle;
 
+    /**
+     * 订单明细筛选统计
+     *
+     * @param path    文件路径
+     * @return
+     * @throws Exception
+     */
     @Override
     public Map<String, HashMap<String,NumberData>> readingSheet(String path) throws Exception {
         InputStream ips = new FileInputStream(path);  //磁盘io流
@@ -130,6 +137,12 @@ public class SchoolTableRead extends ExcelFormUnityImplements {
 //        return wb.getSheet(sheetName);//得到Excel工作表对象
 //    }
 
+    /**
+     * 仓库数据装载
+     * @param path
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<WarehouseData> readingMatchSheet(String path) throws Exception{ //读仓库表
          List<WarehouseData> warehouseDataList = new ArrayList<>();

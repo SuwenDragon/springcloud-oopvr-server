@@ -19,6 +19,14 @@ public class TabulationToolNeuron {
     @Autowired
     private ExcelFormUnityInterface excelFormUnityInterface;
 
+    /**
+     * 表格业务处理
+     * @param source
+     * @param toPath
+     * @param xs
+     * @return
+     * @throws Exception
+     */
     public String makeTableExcel(String source, String toPath,int xs) throws Exception {
         ToolListImplements toolListImplements = new ToolListImplements();  //获取路径
         List<File> files = toolListImplements.readFile(source);
